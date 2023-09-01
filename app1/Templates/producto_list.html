@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="mb-4">Lista de Productos</h1>
+        <ul class="list-group">
+            {% for c in productos %}
+                <li class="list-group-item">
+                    <h4>{{ c.descripcion }}</h4>
+                    <p>Cantidad: {{ c.cantidad }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

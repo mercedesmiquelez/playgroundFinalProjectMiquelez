@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mb-4">Buscar Productos por Descripcion</h1>
+        <form method="get" action="">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        
+        {% if productos %}
+        <h2 class="mt-4">Resultados de la búsqueda:</h2>
+        <ul class="list-group">
+            {% for producto in productos %}
+            <li class="list-group-item">
+                {{ producto.descripcion }} - Cantidad {{ producto.cantidad }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+{% endblock %}

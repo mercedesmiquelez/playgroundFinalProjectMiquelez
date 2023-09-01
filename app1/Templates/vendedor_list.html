@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mb-4">Lista de vendedor</h1>
+        <ul class="list-group">
+            {% for v in vendedores %}
+                <li class="list-group-item">
+                    {{ v.nombre }} {{ v.apellido }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

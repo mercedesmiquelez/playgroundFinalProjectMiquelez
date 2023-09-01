@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mb-4">Crear un Nuevo Servicio</h1>
+        <form method="post">
+            {% csrf_token %}
+            <table>
+                {{mi_formulario.as_table}}
+                </table>
+                <input type="submit" value="crear">
+        </form>
+        <form action="">
+            <a href="http://127.0.0.1:8000/app1/servicio_list/"><input type="button" value="Buscar Servicios"></a>
+        </form>
+    </div>
+{% endblock %}
