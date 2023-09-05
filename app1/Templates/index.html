@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Landing Page - Start Bootstrap Theme</title>
+        <title>PlaygroundFinalProject+Miquelez</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -17,56 +17,31 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
+
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
-                {% comment %} <a class="navbar-brand" href="{% url 'app1:index' %}">Start Bootstrap</a> {% endcomment %}
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    {% if user.is_authenticated %}
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'app1:index' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'app1:producto_create' %}">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'app1:servicio_form' %}">Servicios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'app1:comprador_form' %}">Compradores</a>
-                        </li>
-                        <li class="nav-item">
-                                <a class="nav-link" href="{% url 'app1:post_list' %}">Posts</a>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" id="submitButton"><a href="{% url 'app1:logout' %}">Logout</a> </button>
-                            <!-- <a class="nav-link" href="{% url 'app1:logout' %}">Logout</a> -->
-                         </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'app1:index' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                                <a class="nav-link" href="{% url 'app1:login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                                <a class="nav-link" href="{% url 'app1:register' %}">Register</a>
-                        </li>
-                    {% endif %}
-                    {% if request.user.avatar %}
-                        <img src="{{request.user.usuario.imagen.url}}" alt="" height="40px">
-                    {% endif %}
-                        {% comment %} <a class="navbar-brand" href="{% url 'EditarPerfil' %}">{{request.user.username}}</a> {% endcomment %}
-                    </ul>
+                <a href="{% url 'app1:index' %}" class="btn btn-secondary">Inicio</a>
+                {% if not request.user.is_authenticated %}
+                <a class="btn btn-primary" href="{% url 'app1:login' %}">Iniciar Sesion</a>
+                <a class="btn btn-primary" href="{% url 'app1:register' %}">Registrarse</a>
+                {% else %}
+                <div class="navbar-brand">
+                    <a href="http://127.0.0.1:8000/app1/editarPerfil/">
+                        {% if request.user.avatar %}
+                        <img src="{{ user.avatar.image.url }}" alt="Avatar" height="48px">
+                        {% else %}
+                        {{ request.user.username }}
+                        {% endif %}
+                    Perfil</a>
+                    <a class="btn btn-primary" href="{% url 'app1:logout' %}">Cerrar Sesion</a>
                 </div>
+                {% endif %}
+                {% if request.user.avatar %}
+                <img src="{{request.user.avatar.url}}" alt="" height="48px">
+                {% endif %}
             </div>
         </nav>
-        
-        {% block content %}
         <!-- Masthead-->
         <header class="masthead">
             <div class="container position-relative">
@@ -74,7 +49,7 @@
                     <div class="col-xl-6">
                         <div class="text-center text-white">
                             <!-- Page heading-->
-                            <h1 class="mb-5">Nuestra web Intermedia de Django - Coderhouse</h1>
+                            <h1 class="mb-5">PlaygroundFinalProject+Miquelez</h1>
                             <!-- Signup form-->
                             <!-- * * * * * * * * * * * * * * *-->
                             <!-- * * SB Forms Contact Form * *-->
@@ -83,39 +58,65 @@
                             <!-- To make this form functional, sign up at-->
                             <!-- https://startbootstrap.com/solution/contact-forms-->
                             <!-- to get an API token!-->
-                            <form class="form-subscribe" id="contactForm" data-sb-form-api-token="API_TOKEN">
-                                <!-- Email address input-->
-                                <div class="row">
-                                    <div class="col">
-                                        <input class="form-control form-control-lg" id="emailAddress" type="email" placeholder="Email Address" data-sb-validations="required,email" />
-                                        <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:required">Email Address is required.</div>
-                                        <div class="invalid-feedback text-white" data-sb-feedback="emailAddress:email">Email Address Email is not valid.</div>
-                                    </div>
-                                    <div class="col-auto"><button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button></div>
-                                </div>
-                                <!-- Submit success message-->
-                                <!---->
-                                <!-- This is what your users will see when the form-->
-                                <!-- has successfully submitted-->
-                                <div class="d-none" id="submitSuccessMessage">
-                                    <div class="text-center mb-3">
-                                        <div class="fw-bolder">Form submission successful!</div>
-                                        <p>To activate this form, sign up at</p>
-                                        <a class="text-white" href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                    </div>
-                                </div>
-                                <!-- Submit error message-->
-                                <!---->
-                                <!-- This is what your users will see when there is-->
-                                <!-- an error submitting the form-->
-                                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </header>
+                
+        {% block content %}
+       
         <!-- Icons Grid-->
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+
+        <section class="features-icons bg-light text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            
+                            <h3>Conoce todos los productos</h3>
+                            <a href="{% url 'app1:producto_create' %}" class="btn btn-secondary">Productos</a> 
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                            
+                            <h3>Busca los distintos servicios</h3>
+                            <a href="{% url 'app1:servicio_form' %}" class="btn btn-secondary">Servicios</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            
+                            <h3>Conoce a nuestros compradores</h3>
+                            <a href="{% url 'app1:comprador_form' %}" class="btn btn-secondary">Comprador</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            
+                            <h3>Conoce a nuestros vendedores</h3>
+                            <a href="{% url 'app1:vendedor_form' %}" class="btn btn-secondary">Vendedor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br>
+        <br>
+        <br>
+        <a href="{% url 'app1:post_list' %}" class="btn btn-primary">Ver los comentarios</a>
+
         <section class="features-icons bg-light text-center">
             <div class="container">
                 <div class="row">

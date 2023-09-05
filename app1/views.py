@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 from .models import Producto, Servicio, Vendedor, Comprador, Post
-from .forms import ServicioForm, VendedorForm, CompradorForm, ProductoSearchForm, PostForm, CustomUserCreationForm, UserEditForm, ProductoForm, ServicioForm
+from .forms import ServicioForm, VendedorForm, CompradorForm, ProductoSearchForm, PostForm, CustomUserCreationForm, UserEditForm, ProductoForm
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -34,7 +34,6 @@ def producto_create(request):
         mi_formulario = ProductoForm()
         return render(request, 'producto_create.html', {'mi_formulario': mi_formulario})
 
-
 class ServicioListView(ListView):
     model = Servicio
     template_name = 'servicio_list.html'
@@ -50,24 +49,22 @@ def servicio_form(request):
         mi_formulario = ServicioForm()
         return render(request, 'servicio_form.html', {'mi_formulario': mi_formulario})
 
-# Vistas para el modelo Vendedor
-class VendedorCreateView(CreateView):
-    model = Vendedor
-    form_class = VendedorForm
-    template_name = 'vendedor_form.html'
-    success_url = reverse_lazy('app1:index')
-
 class VendedorListView(ListView):
     model = Vendedor
     template_name = 'vendedor_list.html'
     context_object_name = 'vendedores'
+    
 
-# Vistas para el modelo Comprador
-# class CompradorCreateView(CreateView):
-#     model = Comprador
-#     form_class = CompradorForm
-#     template_name = 'comprador_form.html'
-#     success_url = reverse_lazy('app1:index')
+def vendedor_form(request):
+    if request.method == 'POST':
+        mi_formulario = VendedorForm(request.POST)
+        if mi_formulario.is_valid():
+            mi_formulario.save()
+        return render(request, 'index.html')
+    else:
+        mi_formulario = VendedorForm()
+        return render(request, 'vendedor_form.html', {'mi_formulario': mi_formulario})
+    
 
 class CompradorListView(ListView):
     model = Comprador
@@ -81,7 +78,7 @@ def comprador_form(request):
             mi_formulario.save()
         return render(request, 'index.html')
     else:
-        mi_formulario = ProductoForm()
+        mi_formulario = CompradorForm()
         return render(request, 'comprador_form.html', {'mi_formulario': mi_formulario})
     
 class CompradorUpdateView(UpdateView):
@@ -142,6 +139,10 @@ class PostDeleteView(DeleteView):
     template_name = 'delete_post.html'
     success_url = reverse_lazy('app1:post_list')
 
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'detail_post.html'
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = CustomUserCreationForm
@@ -170,12 +171,12 @@ def editarPerfil(request):
                 usuario.avatar.save()
                 
             miFormulario.save()
-            return render(request, "app1/index.html")
+            return render(request, "index.html")
         
     else:
         miFormulario = UserEditForm(instance=request.user)
-    return render(request, "app1/editar_perfil.html", {"miFormulario": miFormulario, "usuario": usuario})
+    return render(request, "editarPerfil.html", {"miFormulario": miFormulario, "usuario": usuario})
 
 class CambiarContrasenia(LoginRequiredMixin, PasswordChangeView):
-    template_name = "app1/cambiar_contrasenia.html"
-    success_url = reverse_lazy('EditarPerfil')
+    template_name = "cambiar_contrasenia.html"
+    success_url = reverse_lazy('app1:editarPerfil')
